@@ -36,7 +36,7 @@ enum LazyList[+A]:
     }
 
   @annotation.tailrec
-  def drop(n: Int): LazyList[A] =
+  final def drop(n: Int): LazyList[A] =
     this match {
       case Cons(_, t) if n > 0 => t().drop(n - 1)
       case _ => this
@@ -48,7 +48,8 @@ enum LazyList[+A]:
       case _ => empty
     }
 
-  def forAll(p: A => Boolean): Boolean = ???
+  def forAll(p: A => Boolean): Boolean =
+    foldRight(true)((a, b) => p(a) && b)
 
   def headOption: Option[A] = ???
 
